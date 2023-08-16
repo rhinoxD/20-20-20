@@ -9,6 +9,29 @@ const seagull = ref(null)
 const bell = ref(null)
 let flag = true
 
+// const startTime = Date.now()
+
+// on each tick
+
+// let timePassedInMs = Date.now() - startTime
+// let something = 0
+
+// setInterval(() => {
+//   timePassedInMs = Date.now() - startTime
+//   something = elapsedTime.value - timePassedInMs
+//   console.log("this is something", something)
+//   console.log("this is timePassedInMs", timePassedInMs)
+//   console.log("this is elapsedTime", elapsedTime.value)
+//   console.log(Math.floor(something % 1000))
+//   console.log(Math.floor((something / 1000) % 60))
+//   console.log(Math.floor((something / (1000 * 60)) % 60))
+//   console.log(Math.floor((something / (1000 * 60 * 60)) % 24))
+//   // console.log(timePassedInMs / 1000)
+//   // console.log(timePassedInMs / 1000 / 60)
+//   // console.log(timePassedInMs / 1000 / 60 / 60)
+//   // console.log(timePassedInMs / 1000 / 60 / 60 / 24)
+// }, 1000)
+
 function toggleTimer() {
   if (isRunning.value) {
     clearInterval(setInterval1.value)
@@ -39,20 +62,7 @@ function toggleTimer() {
   isRunning.value = !isRunning.value
 }
 
-onMounted(() => {
-  var scripts = [
-    "/scripts/HackTimer.js",
-    "/scripts/HackTimerWorker.js",
-  ];
-
-  scripts.forEach(script => {
-    let tag = document.createElement("script");
-    tag.setAttribute("src", script);
-    document.head.appendChild(tag);
-  });
-
-  toggleTimer()
-})
+onMounted(() => toggleTimer())
 
 
 function resetTimer() {
@@ -63,7 +73,7 @@ function resetTimer() {
 
 const formattedTime = computed(() => {
   const milliseconds = elapsedTime.value % 1_000
-  const seconds = Math.floor((elapsedTime.value / 1000) % 60)
+  const seconds = Math.floor((elapsedTime.value / 1_000) % 60)
   const minutes = Math.floor((elapsedTime.value / (1_000 * 60)) % 60)
   const hours = Math.floor((elapsedTime.value / (1_000 * 60 * 60)) % 24)
 
@@ -74,10 +84,31 @@ const formattedTime = computed(() => {
       .slice(0, 2)
       .padStart(2, '0')}`
 })
+
+const formattedTime2 = computed(() => {
+  const milliseconds = elapsedTime.value % 1_000
+  const seconds = Math.floor((elapsedTime.value / 1_000) % 60)
+  const minutes = Math.floor((elapsedTime.value / (1_000 * 60)) % 60)
+  const hours = Math.floor((elapsedTime.value / (1_000 * 60 * 60)) % 24)
+
+  const tms = elapsedTime.value - timePassedInMs / 1000
+  const ts = Math.floor(timePassedInMs / (1000 * 60))
+  const tm = Math.floor(timePassedInMs / (1000 * 60 * 60))
+  const th = Math.floor(timePassedInMs / (1000 * 60 * 60 * 24))
+
+  return `${th.toString().padStart(2, '0')}:${tm
+    .toString()
+    .padStart(2, '0')}:${ts.toString().padStart(2, '0')}.${tms
+      .toString()
+      .slice(0, 2)
+      .padStart(2, '0')}`
+})
+
 </script>
 <template>
   <main class="flex flex-col items-center justify-center bg-gray-900 text-white p-8 h-screen">
     <p class="text-8xl font-bold font-mono">{{ formattedTime }}</p>
+    <!-- <p class="text-8xl font-bold font-mono">{{ formattedTime2 }}</p> -->
 
     <section class="flex justify-center space-x-4">
       <!-- <audio class="hidden" ref='seagull' src="/audio/seagullsound.mp3" /> -->
