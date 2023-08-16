@@ -66,9 +66,13 @@ const formattedTime = computed(() => {
     <p class="text-8xl font-bold font-mono">{{ formattedTime }}</p>
 
     <section class="flex justify-center space-x-4">
-      <audio class="hidden" ref='seagull' src="./public/audio/seagullsound.mp3" />
+      <!-- <audio class="hidden" ref='seagull' src="/audio/seagullsound.mp3" /> -->
+      <audio class="hidden" ref='seagull'
+        src="https://ergonomictrends.com/20-20-20-rest-eyes-health-tool/seagullsound.mp3" />
 
-      <audio class="hidden" ref='bell' src="./public/audio/clockchimesound.mp3" />
+      <!-- <audio class="hidden" ref='bell' src="./public/audio/clockchimesound.mp3" /> -->
+      <audio class="hidden" ref='bell'
+        src="https://ergonomictrends.com/20-20-20-rest-eyes-health-tool/clockchimesound.mp3" />
 
       <button class="px-4 py-2 rounded-lg border border-green-500 hover:bg-green-600 focus:outline-none transition"
         type="button" @click="toggleTimer">
