@@ -1,24 +1,50 @@
 <script setup>
-import { ref, computed } from 'vue'
-const setIntervalId = ref(null)
-const elapsedTime = ref(0)
+import { ref, computed, onMounted } from 'vue'
+
+const setInterval1 = ref(null)
+const elapsedTime = ref(null)
 const MILLISECONDS = 10
 const isRunning = ref(false)
+const seagull = ref(null)
+const bell = ref(null)
+let flag = true
+
 function toggleTimer() {
   if (isRunning.value) {
-    clearInterval(setIntervalId.value)
+    clearInterval(setInterval1.value)
   } else {
-    setIntervalId.value = setInterval(() => {
-      elapsedTime.value += MILLISECONDS
+    setInterval1.value = setInterval(() => {
+      if (elapsedTime.value <= 0) {
+        if (seagull.value != null && bell.value != null) {
+          // flag ? bell.value.play() : seagull.value.play()
+
+          if (flag) {
+            bell.value.play().catch(err => {
+              // catch err
+            })
+          } else {
+            seagull.value.play().catch(err => {
+              // catch err
+            })
+          }
+        }
+
+        elapsedTime.value = flag ? 5000 : 4000
+        flag = !flag
+      }
+
+      elapsedTime.value -= MILLISECONDS
     }, MILLISECONDS)
   }
   isRunning.value = !isRunning.value
 }
 
+onMounted(() => toggleTimer())
+
 function resetTimer() {
-  clearInterval(setIntervalId.value)
+  clearInterval(setInterval1.value)
   isRunning.value = false
-  elapsedTime.value = 0
+  elapsedTime.value = 1200000
 }
 
 const formattedTime = computed(() => {
@@ -30,30 +56,28 @@ const formattedTime = computed(() => {
   return `${hours.toString().padStart(2, '0')}:${minutes
     .toString()
     .padStart(2, '0')}:${seconds.toString().padStart(2, '0')}.${milliseconds
-    .toString()
-    .slice(0, 2)
-    .padStart(2, '0')}`
+      .toString()
+      .slice(0, 2)
+      .padStart(2, '0')}`
 })
 </script>
 <template>
-  <main
-    class="flex flex-col items-center justify-center bg-gray-900 text-white p-8 h-screen"
-  >
+  <main class="flex flex-col items-center justify-center bg-gray-900 text-white p-8 h-screen">
     <p class="text-8xl font-bold font-mono">{{ formattedTime }}</p>
+
     <section class="flex justify-center space-x-4">
-      <button
-        class="px-4 py-2 rounded-lg border border-green-500 hover:bg-green-600 focus:outline-none transition"
-        type="button"
-        @click="toggleTimer"
-      >
+      <audio class="hidden" ref='seagull' src="./src/assets/audio/seagullsound.mp3" />
+
+      <audio class="hidden" ref='bell' src="./src/assets/audio/clockchimesound.mp3" />
+
+      <button class="px-4 py-2 rounded-lg border border-green-500 hover:bg-green-600 focus:outline-none transition"
+        type="button" @click="toggleTimer">
         {{ isRunning ? 'Stop' : 'Start' }}
       </button>
+
       <button
         class="px-4 py-2 rounded-lg border border-red-500 hover:bg-red-600 focus:outline-none transition disabled:cursor-not-allowed"
-        type="button"
-        @click="resetTimer"
-        :disabled="isRunning"
-      >
+        type="button" @click="resetTimer" :disabled="isRunning">
         Reset
       </button>
     </section>
