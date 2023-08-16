@@ -39,7 +39,21 @@ function toggleTimer() {
   isRunning.value = !isRunning.value
 }
 
-onMounted(() => toggleTimer())
+onMounted(() => {
+  var scripts = [
+    "/scripts/HackTimer.js",
+    "/scripts/HackTimerWorker.js",
+  ];
+
+  scripts.forEach(script => {
+    let tag = document.createElement("script");
+    tag.setAttribute("src", script);
+    document.head.appendChild(tag);
+  });
+
+  toggleTimer()
+})
+
 
 function resetTimer() {
   clearInterval(setInterval1.value)
