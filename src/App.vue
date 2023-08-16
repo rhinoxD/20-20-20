@@ -29,7 +29,7 @@ function toggleTimer() {
           }
         }
 
-        elapsedTime.value = flag ? 5000 : 4000
+        elapsedTime.value = flag ? 1200000 : 20000
         flag = !flag
       }
 
@@ -66,9 +66,9 @@ const formattedTime = computed(() => {
     <p class="text-8xl font-bold font-mono">{{ formattedTime }}</p>
 
     <section class="flex justify-center space-x-4">
-      <audio class="hidden" ref='seagull' src="./src/assets/audio/seagullsound.mp3" />
+      <audio class="hidden" ref='seagull' src="./public/audio/seagullsound.mp3" />
 
-      <audio class="hidden" ref='bell' src="./src/assets/audio/clockchimesound.mp3" />
+      <audio class="hidden" ref='bell' src="./public/audio/clockchimesound.mp3" />
 
       <button class="px-4 py-2 rounded-lg border border-green-500 hover:bg-green-600 focus:outline-none transition"
         type="button" @click="toggleTimer">
