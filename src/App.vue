@@ -1,132 +1,103 @@
 <script setup>
-import { ref, computed, onMounted } from 'vue'
+import { ref, onMounted } from 'vue'
 
-const setInterval1 = ref(null)
-const elapsedTime = ref(null)
-const MILLISECONDS = 10
 const isRunning = ref(false)
 const seagull = ref(null)
 const bell = ref(null)
 let flag = true
+// let minutesElem = document.getElementById("minutes"),
+//   secondsElem = document.getElementById("seconds");
+const m = ref(0)
+const s = ref(0)
 
-// const startTime = Date.now()
+onMounted(() => {
+  // minutesElem = document.getElementById("minutes"),
+  //   secondsElem = document.getElementById("seconds");
 
-// on each tick
+  start()
+  // startCountdown();
+  // timerInterval = setInterval(startCountdown, 1000);
+})
 
-// let timePassedInMs = Date.now() - startTime
-// let something = 0
+let countdownDate = new Date().setSeconds(new Date().getSeconds() + 1200);
 
-// setInterval(() => {
-//   timePassedInMs = Date.now() - startTime
-//   something = elapsedTime.value - timePassedInMs
-//   console.log("this is something", something)
-//   console.log("this is timePassedInMs", timePassedInMs)
-//   console.log("this is elapsedTime", elapsedTime.value)
-//   console.log(Math.floor(something % 1000))
-//   console.log(Math.floor((something / 1000) % 60))
-//   console.log(Math.floor((something / (1000 * 60)) % 60))
-//   console.log(Math.floor((something / (1000 * 60 * 60)) % 24))
-//   // console.log(timePassedInMs / 1000)
-//   // console.log(timePassedInMs / 1000 / 60)
-//   // console.log(timePassedInMs / 1000 / 60 / 60)
-//   // console.log(timePassedInMs / 1000 / 60 / 60 / 24)
-// }, 1000)
+let timerInterval;
 
-function toggleTimer() {
-  if (isRunning.value) {
-    clearInterval(setInterval1.value)
-  } else {
-    setInterval1.value = setInterval(() => {
-      if (elapsedTime.value <= 0) {
-        if (seagull.value != null && bell.value != null) {
-          // flag ? bell.value.play() : seagull.value.play()
-
-          if (flag) {
-            bell.value.play().catch(err => {
-              // catch err
-            })
-          } else {
-            seagull.value.play().catch(err => {
-              // catch err
-            })
-          }
-        }
-
-        elapsedTime.value = flag ? 1200000 : 20000
-        flag = !flag
-      }
-
-      elapsedTime.value -= MILLISECONDS
-    }, MILLISECONDS)
-  }
-  isRunning.value = !isRunning.value
+function start() {
+  startCountdown();
+  timerInterval = setInterval(startCountdown, 1000);
 }
 
-onMounted(() => toggleTimer())
-
-
-function resetTimer() {
-  clearInterval(setInterval1.value)
+function reset() {
   isRunning.value = false
-  elapsedTime.value = 1200000
+  countdownDate = new Date().setSeconds(new Date().getSeconds() + 1201);
+  // minutesElem.innerHTML = formatTime(20, "minute");
+  // secondsElem.innerHTML = formatTime(0, "second");
+  m.value = 20
+  s.value = "00"
+  clearInterval(timerInterval);
 }
 
-const formattedTime = computed(() => {
-  const milliseconds = elapsedTime.value % 1_000
-  const seconds = Math.floor((elapsedTime.value / 1_000) % 60)
-  const minutes = Math.floor((elapsedTime.value / (1_000 * 60)) % 60)
-  const hours = Math.floor((elapsedTime.value / (1_000 * 60 * 60)) % 24)
+const startCountdown = () => {
+  isRunning.value = true
+  const now = new Date().getTime();
+  const countdown = new Date(countdownDate).getTime();
 
-  return `${hours.toString().padStart(2, '0')}:${minutes
-    .toString()
-    .padStart(2, '0')}:${seconds.toString().padStart(2, '0')}.${milliseconds
-      .toString()
-      .slice(0, 2)
-      .padStart(2, '0')}`
-})
+  const difference = (countdown - now) / 1000;
 
-const formattedTime2 = computed(() => {
-  const milliseconds = elapsedTime.value % 1_000
-  const seconds = Math.floor((elapsedTime.value / 1_000) % 60)
-  const minutes = Math.floor((elapsedTime.value / (1_000 * 60)) % 60)
-  const hours = Math.floor((elapsedTime.value / (1_000 * 60 * 60)) % 24)
+  if (difference < 1) {
+    flag = !flag
+    if (seagull.value != null && bell.value != null) {
+      if (flag) {
+        countdownDate = new Date().setSeconds(new Date().getSeconds() + 1200);
+        bell.value.play().catch(err => {
+          // catch err
+        })
+      } else {
+        countdownDate = new Date().setSeconds(new Date().getSeconds() + 20);
+        seagull.value.play().catch(err => {
+          // catch err
+        })
+      }
+    }
+  }
 
-  const tms = elapsedTime.value - timePassedInMs / 1000
-  const ts = Math.floor(timePassedInMs / (1000 * 60))
-  const tm = Math.floor(timePassedInMs / (1000 * 60 * 60))
-  const th = Math.floor(timePassedInMs / (1000 * 60 * 60 * 24))
+  let minutes = Math.floor((difference % (60 * 60)) / 60).toString().length == 1 ? `0${Math.floor((difference % (60 * 60)) / 60)}` : Math.floor((difference % (60 * 60)) / 60);
+  let seconds = Math.floor(difference % 60).toString().length == 1 ? `0${Math.floor(difference % 60)}` : Math.floor(difference % 60);
 
-  return `${th.toString().padStart(2, '0')}:${tm
-    .toString()
-    .padStart(2, '0')}:${ts.toString().padStart(2, '0')}.${tms
-      .toString()
-      .slice(0, 2)
-      .padStart(2, '0')}`
-})
+  m.value = minutes
+  s.value = seconds
+
+  // minutesElem.innerHTML = formatTime(minutes, "minute");
+  // secondsElem.innerHTML = formatTime(seconds, "second");
+};
+
+const endCountdown = () => {
+  isRunning.value = false;
+  clearInterval(timerInterval);
+};
 
 </script>
+
 <template>
   <main class="flex flex-col items-center justify-center bg-gray-900 text-white p-8 h-screen">
-    <p class="text-8xl font-bold font-mono">{{ formattedTime }}</p>
-    <!-- <p class="text-8xl font-bold font-mono">{{ formattedTime2 }}</p> -->
+    <p class="text-8xl font-bold font-mono">{{ m }} : {{ s }}</p>
 
-    <section class="flex justify-center space-x-4">
-      <!-- <audio class="hidden" ref='seagull' src="/audio/seagullsound.mp3" /> -->
-      <audio class="hidden" ref='seagull'
-        src="https://ergonomictrends.com/20-20-20-rest-eyes-health-tool/seagullsound.mp3" />
-
-      <!-- <audio class="hidden" ref='bell' src="./public/audio/clockchimesound.mp3" /> -->
-      <audio class="hidden" ref='bell'
-        src="https://ergonomictrends.com/20-20-20-rest-eyes-health-tool/clockchimesound.mp3" />
-
-      <button class="px-4 py-2 rounded-lg border border-green-500 hover:bg-green-600 focus:outline-none transition"
-        type="button" @click="toggleTimer">
-        {{ isRunning ? 'Stop' : 'Start' }}
+    <section class="flex  justify-center space-x-5 mt-5" id="timer" aria-live="polite">
+      <button v-if="isRunning"
+        class="px-4 py-2 rounded-lg border border-green-500 hover:bg-green-600 focus:outline-none transition"
+        type="button" @click="endCountdown">
+        Stop
+      </button>
+      <button v-else-if="!isRunning"
+        class="px-4 py-2 rounded-lg border border-green-500 hover:bg-green-600 focus:outline-none transition"
+        type="button" @click="start">
+        Start
       </button>
 
       <button
         class="px-4 py-2 rounded-lg border border-red-500 hover:bg-red-600 focus:outline-none transition disabled:cursor-not-allowed"
-        type="button" @click="resetTimer" :disabled="isRunning">
+        type="button" @click="reset" :disabled="isRunning">
         Reset
       </button>
     </section>
