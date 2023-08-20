@@ -111,5 +111,7 @@ const startCountdown = () => {
         Reset
       </button>
     </section>
+
+    <p class="mt-6 text-center italic text-red-500">***Allow audio and video permissions in the browser to get audio alerts.***</p>
   </main>
 </template>
