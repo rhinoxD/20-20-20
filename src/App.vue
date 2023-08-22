@@ -24,6 +24,9 @@ let countdownDate = new Date().setSeconds(new Date().getSeconds() + 1201);
 let timerInterval;
 
 function start() {
+  bell.value.play().catch(err => {
+    // catch err
+  })
   startCountdown();
   timerInterval = setInterval(startCountdown, 1000);
 }
@@ -85,9 +88,9 @@ const startCountdown = () => {
 
 <template>
   <main class="flex flex-col items-center justify-center bg-gray-900 text-white p-8 h-screen">
-    <p class="text-7xl md:text-8xl font-bold font-mono">{{ m }} : {{ s }}</p>
+    <p class="text-6xl md:text-8xl font-bold font-mono">{{ m }} : {{ s }}</p>
 
-    <section class="flex  justify-center  mt-5" id="timer" aria-live="polite">
+    <section class="flex  justify-center mt-5" id="timer" aria-live="polite">
       <audio class="hidden" ref='seagull'
         src="https://ergonomictrends.com/20-20-20-rest-eyes-health-tool/seagullsound.mp3" />
 
@@ -112,6 +115,7 @@ const startCountdown = () => {
       </button>
     </section>
 
-    <p class="mt-6 text-center italic text-red-500">***Allow audio and video permissions in the browser to get audio alerts.***</p>
+    <p class="mt-6 text-center italic text-red-500">***Allow audio and video permissions in the browser to get audio
+      alerts.***</p>
   </main>
 </template>
