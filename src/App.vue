@@ -55,6 +55,7 @@ const startCountdown = () => {
     if (seagull.value != null && bell.value != null) {
       if (flag) {
         countdownDate = new Date().setSeconds(new Date().getSeconds() + 1201);
+        // bell.value.volume = 0.6
         bell.value.play().catch(err => {
           // catch err
         })
@@ -91,11 +92,11 @@ const startCountdown = () => {
     <p class="text-6xl md:text-8xl font-bold font-mono">{{ m }} : {{ s }}</p>
 
     <section class="flex  justify-center mt-5" id="timer" aria-live="polite">
-      <audio class="hidden" ref='seagull'
+      <audio class="hidden" ref='seagull' volume="0.2"
         src="https://ergonomictrends.com/20-20-20-rest-eyes-health-tool/seagullsound.mp3" />
 
       <!-- <audio class="hidden" ref='bell' src="./public/audio/clockchimesound.mp3" /> -->
-      <audio class="hidden" ref='bell'
+      <audio class="hidden" ref='bell' volume="0.2"
         src="https://ergonomictrends.com/20-20-20-rest-eyes-health-tool/clockchimesound.mp3" />
       <!-- <button v-if="isRunning" -->
       <!--   class="px-4 py-2 rounded-lg border border-green-500 hover:bg-green-600 focus:outline-none transition" -->
