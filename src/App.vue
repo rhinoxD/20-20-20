@@ -5,21 +5,11 @@ const isRunning = ref(false)
 const seagull = ref(null)
 const bell = ref(null)
 let flag = true
-// let minutesElem = document.getElementById("minutes"),
-//   secondsElem = document.getElementById("seconds");
 const m = ref(0)
 const s = ref(0)
 
-onMounted(() => {
-  // minutesElem = document.getElementById("minutes"),
-  //   secondsElem = document.getElementById("seconds");
+onMounted(() => start())
 
-  start()
-  // startCountdown();
-  // timerInterval = setInterval(startCountdown, 1000);
-})
-
-// let test = 11
 let countdownDate = new Date().setSeconds(new Date().getSeconds() + 1201);
 let timerInterval;
 
@@ -33,17 +23,12 @@ function start() {
 
 function reset() {
   isRunning.value = false
-  // test = 1201
   countdownDate = new Date().setSeconds(new Date().getSeconds() + 1201);
-  // minutesElem.innerHTML = formatTime(20, "minute");
-  // secondsElem.innerHTML = formatTime(0, "second");
   m.value = 20
   s.value = "00"
-  // clearInterval(timerInterval);
 }
 
 const startCountdown = () => {
-  // test -= 1
   isRunning.value = true
   const now = new Date().getTime();
   const countdown = new Date(countdownDate).getTime();
@@ -55,7 +40,6 @@ const startCountdown = () => {
     if (seagull.value != null && bell.value != null) {
       if (flag) {
         countdownDate = new Date().setSeconds(new Date().getSeconds() + 1201);
-        // bell.value.volume = 0.6
         bell.value.play().catch(err => {
           // catch err
         })
@@ -73,18 +57,7 @@ const startCountdown = () => {
 
   m.value = minutes == -1 ? "00" : minutes
   s.value = seconds == -1 ? "00" : seconds
-
-  // minutesElem.innerHTML = formatTime(minutes, "minute");
-  // secondsElem.innerHTML = formatTime(seconds, "second");
 };
-
-// const endCountdown = () => {
-//   isRunning.value = false;
-//   clearInterval(timerInterval);
-//   console.log("end", test)
-//   console.log("end", countdownDate)
-// };
-
 </script>
 
 <template>
@@ -93,21 +66,12 @@ const startCountdown = () => {
 
     <section class="flex  justify-center mt-5" id="timer" aria-live="polite">
       <audio class="hidden" ref='seagull' volume="0.1"
-        src="https://ergonomictrends.com/20-20-20-rest-eyes-health-tool/seagullsound.mp3" />
+        src="https://www.myinstants.com/media/sounds/faceit-lone-wolf-howling_160k.mp3" />
+      <!-- src="https://ergonomictrends.com/20-20-20-rest-eyes-health-tool/seagullsound.mp3" /> -->
 
-      <!-- <audio class="hidden" ref='bell' src="./public/audio/clockchimesound.mp3" /> -->
       <audio class="hidden" ref='bell' volume="0.1"
-        src="https://ergonomictrends.com/20-20-20-rest-eyes-health-tool/clockchimesound.mp3" />
-      <!-- <button v-if="isRunning" -->
-      <!--   class="px-4 py-2 rounded-lg border border-green-500 hover:bg-green-600 focus:outline-none transition" -->
-      <!--   type="button" @click="endCountdown"> -->
-      <!--   Stop -->
-      <!-- </button> -->
-      <!-- <button v-else-if="!isRunning" -->
-      <!--   class="px-4 py-2 rounded-lg border border-green-500 hover:bg-green-600 focus:outline-none transition" -->
-      <!--   type="button" @click="start"> -->
-      <!--   Start -->
-      <!-- </button> -->
+        src="https://www.myinstants.com/media/sounds/airhorn-far-lethal-company.mp3" />
+      <!-- src="https://ergonomictrends.com/20-20-20-rest-eyes-health-tool/clockchimesound.mp3" /> -->
 
       <button
         class=" px-4 py-2 rounded-lg border border-red-500 hover:bg-red-600 focus:outline-none transition disabled:cursor-not-allowed"
