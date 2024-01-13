@@ -2,8 +2,8 @@
 import { ref, onMounted } from 'vue'
 
 const isRunning = ref(false)
-const seagull = ref(null)
-const bell = ref(null)
+const faceit = ref(null)
+const airhorn = ref(null)
 let flag = true
 const m = ref(0)
 const s = ref(0)
@@ -14,7 +14,7 @@ let countdownDate = new Date().setSeconds(new Date().getSeconds() + 1201);
 let timerInterval;
 
 function start() {
-  bell.value.play().catch(err => {
+  airhorn.value.play().catch(err => {
     // catch err
   })
   startCountdown();
@@ -37,15 +37,15 @@ const startCountdown = () => {
 
   if (difference < 1) {
     flag = !flag
-    if (seagull.value != null && bell.value != null) {
+    if (faceit.value != null && airhorn.value != null) {
       if (flag) {
         countdownDate = new Date().setSeconds(new Date().getSeconds() + 1201);
-        bell.value.play().catch(err => {
+        airhorn.value.play().catch(err => {
           // catch err
         })
       } else {
         countdownDate = new Date().setSeconds(new Date().getSeconds() + 21);
-        seagull.value.play().catch(err => {
+        faceit.value.play().catch(err => {
           // catch err
         })
       }
@@ -65,11 +65,11 @@ const startCountdown = () => {
     <p class="text-6xl md:text-8xl font-bold font-mono">{{ m }} : {{ s }}</p>
 
     <section class="flex  justify-center mt-5" id="timer" aria-live="polite">
-      <audio class="hidden" ref='seagull' volume="0.1"
+      <audio class="hidden" ref='faceit' volume="0.3"
         src="https://www.myinstants.com/media/sounds/faceit-lone-wolf-howling_160k.mp3" />
       <!-- src="https://ergonomictrends.com/20-20-20-rest-eyes-health-tool/seagullsound.mp3" /> -->
 
-      <audio class="hidden" ref='bell' volume="0.1"
+      <audio class="hidden" ref='airhorn' volume="0.2"
         src="https://www.myinstants.com/media/sounds/airhorn-far-lethal-company.mp3" />
       <!-- src="https://ergonomictrends.com/20-20-20-rest-eyes-health-tool/clockchimesound.mp3" /> -->
 
