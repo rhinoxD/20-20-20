@@ -2,7 +2,7 @@
 import { ref, onMounted } from 'vue'
 
 const isRunning = ref(false)
-const faceit = ref(null)
+const howl = ref(null)
 const airhorn = ref(null)
 let flag = true
 const m = ref(0)
@@ -37,7 +37,7 @@ const startCountdown = () => {
 
   if (difference < 1) {
     flag = !flag
-    if (faceit.value != null && airhorn.value != null) {
+    if (howl.value != null && airhorn.value != null) {
       if (flag) {
         countdownDate = new Date().setSeconds(new Date().getSeconds() + 1201);
         airhorn.value.play().catch(err => {
@@ -45,7 +45,7 @@ const startCountdown = () => {
         })
       } else {
         countdownDate = new Date().setSeconds(new Date().getSeconds() + 21);
-        faceit.value.play().catch(err => {
+        howl.value.play().catch(err => {
           // catch err
         })
       }
@@ -65,11 +65,11 @@ const startCountdown = () => {
     <p class="text-6xl md:text-8xl font-bold font-mono">{{ m }} : {{ s }}</p>
 
     <section class="flex  justify-center mt-5" id="timer" aria-live="polite">
-      <audio class="hidden" ref='faceit' volume="0.3"
-        src="https://www.myinstants.com/media/sounds/faceit-lone-wolf-howling_160k.mp3" />
+      <audio class="hidden" ref='howl' volume="0.3"
+        src="https://www.myinstants.com/media/sounds/howl-lone-wolf-howling_160k.mp3" />
       <!-- src="https://ergonomictrends.com/20-20-20-rest-eyes-health-tool/seagullsound.mp3" /> -->
 
-      <audio class="hidden" ref='airhorn' volume="0.2"
+      <audio class="hidden" ref='airhorn' volume="0.4"
         src="https://www.myinstants.com/media/sounds/airhorn-far-lethal-company.mp3" />
       <!-- src="https://ergonomictrends.com/20-20-20-rest-eyes-health-tool/clockchimesound.mp3" /> -->
 
