@@ -66,7 +66,7 @@ const startCountdown = () => {
 
     <section class="flex  justify-center mt-5" id="timer" aria-live="polite">
       <audio class="hidden" ref='howl' volume="0.3"
-        src="https://www.myinstants.com/media/sounds/howl-lone-wolf-howling_160k.mp3" />
+        src="https://www.myinstants.com/media/sounds/faceit-lone-wolf-howling_160k.mp3" />
       <!-- src="https://ergonomictrends.com/20-20-20-rest-eyes-health-tool/seagullsound.mp3" /> -->
 
       <audio class="hidden" ref='airhorn' volume="0.4"
